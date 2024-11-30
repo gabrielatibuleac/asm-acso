@@ -1,0 +1,20 @@
+error 
+{
+    int a,b;
+    _asm{ 
+        mov a,75 
+        mov b,29
+        mov a,b
+    }
+    cout << a;
+}
+corect 
+    int a,b;
+    _asm{ 
+        mov a,75 
+        mov b,29
+         mov eax ,b
+         mov a ,eax
+    }
+    cout << a;
+}
