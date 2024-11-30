@@ -1,3 +1,5 @@
+ exercitiu 1
+
 error 
 {
     int a,b;
@@ -18,3 +20,126 @@ corect
     }
     cout << a;
 }
+
+exercitiu 2
+
+the sum of a array in c language 
+ char t[] = {17,-9,12,4}
+     int i;
+     char sum;
+     for (i = 0; i < 5; i++)
+         sum += t[i];
+     printf("%d", sum);
+in asm language,cum vom scrie vectorul in asm ;
+ // mov ah,t[i] error, nu putem folosi i ul 
+#include <iostream>
+using namespace std;
+int main()
+{
+    char t[] = { 1,7,-9,12,4 };
+    int i;
+    char sum=0;//1byte,nu e variabila globala 
+    for (i = 0; i < 5; i++)
+        _asm
+    {
+        mov eax, i
+        mov bh,t[eax]   // this is a lower byte,it s safer to put bh ,ah
+        add sum, bh
+    }
+  //  cout << (int)sum;.// sa converteste din char in int 
+    printf("%d", sum);
+}
+
+exercitiu 3
+
+// acum nu mai avem int avem char, aceeasi problema doar ca vectorul este declarat cu int
+#include <iostream>
+using namespace std;
+int main()
+{
+    int t[] = { 1,7,-9,12,4 };
+    int i;
+    int sum=0; 
+    for (i = 0; i < 5; i++)
+        _asm
+    {
+        mov eax, i
+        mov ebx,t[eax]   
+        //when is int we put ebx pentru ca trebuie sa punem nr pe 4 octeti 
+        add sum, ebx
+    }
+    printf("%d", sum);
+}
+
+exercitiu 4
+
+de ce ne da un nr mai mare pentru ca e pointer error
+#include <iostream>
+using namespace std;
+int main()
+{
+    int t[] = { 1,7,-9,12,4 };
+    int i;
+    int sum=0;
+    for (i = 0; i < 5; i++)
+        _asm
+    {
+        mov eax, i
+        mov ebx,t[eax*4]   // this is a lower byte,it s safer to put bh ,ah
+        // de ce e *4 each elem is t pt ca daca e char t adress e 100 , t[0]=100 t[1]=101
+         //iar daca e int t[0]=100 t[1]=104 de asta inmultim cu 4 
+        add sum, ebx
+    }
+    printf("%d", sum);
+}
+
+exercitiu 5
+
+xchg any of 2 operats is constans ,no both of them return 
+xchg eax ,ebx
+xchg bx,[]
+xchg [],ch
+all if we cand permit
+ex
+int a,b;
+a=15;
+b=27;
+swap(a,b);
+
+exercitiu 6 in asm language swap
+
+ int a, b;
+    a = 15;
+    b = 27;
+    _asm {
+        mov eax,a//4bytes 
+        xchg b,eax
+        mov a,eax
+    }
+    printf("%d %d", a, b);// ca sa le afisam pe amandoua 
+
+exercitiu 7
+ in c int i = 83;//4bytes
+    char c = -7;//1byte
+    i = c;
+in asm language
+//we have to extend the sign bit
+    //if is unsigned movzx
+   /* int i = 83;
+    char c = -7;
+    _asm {
+        movsx  eax ,c//the size of register is 4 bytes
+        mov i,eax
+    }
+    cout << i;
+
+exercitiu 8
+// in loc de i=c  sa facem c=i;  91byte =4byte?)
+    unsigned i = 83;
+    char c = -7;
+    _asm {
+     mov eax,i
+     mov c,al//registre al
+  
+    }
+    cout << (int)c;
