@@ -1,0 +1,113 @@
+// Lab2.cpp : This file contains the 'main' function. Program execution begins and ends there.
+#include <iostream>
+using namespace std;
+int main()
+{/*
+	//ex1.
+		usingned a, b, c;
+	c = a * b;
+	in asm->
+		_asm {
+		mov eax, b;
+		mul a;
+		mov c, eax;
+	}
+	*/
+ex2 
+char s[] = "7124";
+	unsigned a;//7124
+	//ca sa convertim din char in int va trebuia sa luam fiecare caracter si facem '7'-> - '0'->  7 dupa vom avea 71 712 7124 ca sa facem asta inmultim cu 10 si adunam cu '0';
+	//in c language
+	//string to int 
+	char s[] = "7124";
+	unsigned a = 0;
+	unsigned i;
+	for (i = 0; s[i] != '\0'; i++)
+		a = a * 10 + (s[i] - '0');
+	//in asm 
+		char s[] = "7124";
+	unsigned a = 0;
+	unsigned i;
+	for (i = 0; s[i] != '\0'; i++)
+		_asm {
+		mov eax, 10;
+		mov ebx, a;
+		mul a;
+		mov ecx, i;
+		movsx edx, s[ecx];
+		sub edx, '0';
+		add eax, edx;
+		mov a, eax;
+	}
+	cout <<a ;
+
+	p2:for (i = 0; s[i] != '\0'; i++)
+		_asm {
+		mov eax, 10;
+		mul a;
+		mov ebx, i;
+		mov cl,s[ebx]
+		sub cl,'0';
+		movzx ecx,cl // char is unsgined but result is signed
+		add eax,ecx;
+		mov a,eax;
+	}
+
+	//ex3
+
+	unsigned a, b, c;
+	//c = a / b; //4byte op we have to do in case 3
+	_asm {
+		mov adx, 0;
+		mov eax, a;
+		div b
+			mov c, eax;
+	}
+	
+	//ex4
+
+	//int to string  
+	unsigned a = 2194;
+	// 4 add +'0'-> '4' we insert somewhere
+	// we need do while for this loop
+	char s[100];//"2194"
+	unsigned i = 0;
+	/*do {
+		s[i] = a % 10 + '0';
+		a /= 10';
+			i++;
+	} while (a);
+	s[i] = '\0';
+	}*/
+ /*how can we translate this
+
+	 s[i] = a % 10 + '0';
+ a /= 10';
+	 i++;
+	do {
+		_asm {
+			mov edx, 0;
+			mov eax, a;
+			mov ebx, 10;
+			div ebx;
+			add edx, '0';
+			mov ecx ,i;
+		//	mov s[ecx],edx// de ce nu e bun trebuie sa scrie dl, pt ca trebuie sa fie 1 byte because is a digit the result 
+			mov s[ecx], dl;
+			mov a, eax;
+			inc i;
+		}
+	} while (a);
+	s[i] = '\0';
+	cout << s;
+	//ex5
+	//c = a & b;
+	_asm {
+		mov eax, a;
+		and eax, b;
+		mov c, eax;
+	}
+	if (a & 8 != 0) //test the byte 
+		and a, 8;//change 8,wrong
+	test a, 8;// same function like and but dont change 8*/
+}
