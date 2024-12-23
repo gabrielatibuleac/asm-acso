@@ -1,0 +1,116 @@
+// lab4.cpp : This file contains the 'main' function. Program execution begins and ends there.
+
+
+#include <iostream>
+using namespace std;
+/*ex 1
+void dif(int a, int b)
+{
+    int c;
+    c = a - b;
+    cout << c << endl;
+}
+int main()
+{//dif(9,5);
+    _asm {
+        push dword ptr 5
+        push dword ptr 9
+        call dif
+        add esp, 8
+    }
+    return 0;
+
+ex 2;
+//cum scoatem "d" e un string , o constanta
+const char* s = "%d";//recomand to be global 
+void dif(int a, int b)
+{
+    _asm {
+        mov eax, a;
+        sub eax, b;
+        // cout << c << endl; call function
+       //  cout << c;
+       //  printf(" %" d, c);
+        push eax;
+        push s;
+        call printf;
+        add esp, 8;
+    }
+    //printf("%d", c);
+}
+
+int main()
+{
+    dif(9, 5);
+    return 0;
+}
+*/
+//a sum of the 
+#include<stdarg.h>// we need to declare for ...
+/*in c.
+int sum(unsingned n, ...)// to be more parameters  we use ... just 3 points;
+{
+    int s = 0;
+    for (i = 1; i <= n; i++)
+        s +=
+        return s;
+
+}
+in asm.
+
+int sum(unsigned n, ...)
+{
+    _asm {
+        push ebx;
+        mov eax, 0;
+        mov ebx, 1;
+        forloop:
+        cmp  ebx, n;
+        ja theend  //jump above
+        add eax, [ebp + 8 + ebx * 4];
+        inc ebx;
+        jmp forloop;
+    theend:
+        pop ebx;
+        }
+}
+int main()
+{
+   cout<< sum(3, 3, 4,2,1,0);
+   // daca schimbam n ul va calcula suma primelor n nr 
+    
+    return 0;
+}
+
+ex 3.  the fac of a number 
+in c;
+unsigned fac(unsigned n)
+{
+    if (n==0) return 1;
+    else
+    return n * fac(n - 1);
+}
+in asm*/
+unsigned fac(unsigned n){
+_asm {
+    
+    mov ebx, n;
+    cmp ebx, 0;
+    je test_1;
+    dec ebx;
+    push ebx;
+    call fac;
+    add esp, 4;
+    mul n;
+    jmp theend
+test_1:
+    mov eax, 1;
+theend:
+
+    }
+
+}int main()
+{
+   cout<< fac(5);
+    
+}
