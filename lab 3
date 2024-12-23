@@ -1,0 +1,104 @@
+// lab3.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
+
+#include <iostream>
+using namespace std;
+int main()
+{ /*"ex 1. array with nr, want to compute the sum
+in c:
+int t[]={5,2,9,-1,7};
+int i,sum=0;
+for(i=0;i<5;i++)
+sum+=t[i];
+registration
+int asm
+i-> eax
+sum->ebx
+	int t[] = { 5,2,9,-1,7 };//4 bytes elements
+	int i, sum = 0;
+	_asm { mov eax, 0;
+	mov ebx, 0;
+myloop: cmp eax, 5;
+	jge outside;//>=
+	add ebx, t[eax * 4];
+	inc eax;
+	jmp myloop;
+outside: 
+	mov sum, ebx;
+	}
+	cout << sum;
+	ex 2
+		an array with charand unsigned number
+		char s[] = "9712";
+	unsigned a = 0;
+	for(i=0;s[i]!='\0';i++)
+		a = a * 10 + (s[i] - '0');
+		
+	char s[] = "9712";
+	unsigned a = 0;
+	_asm {
+		mov edi, 0;
+		mov eax, 0;
+	myloop:
+		cmp s[edi], '\0';
+		je outside;// je pentru ca e !=0
+		mov ebx, 10;
+		imul eax,ebx;
+		
+		movsx edx, s[edi];
+		sub edx, '0';
+		add eax, edx;
+        inc edi;
+		jmp myloop
+			outside:
+		mov a, eax;
+		
+		}
+		cout << a;
+	// ex 3unsigned a, b;
+	a = 21;
+	b = 98;
+	//euclid algotmid;
+	while (a != b)
+	{
+		if (a > b)
+			a = a - b;
+		if (b > a)
+			b = b - a;
+	}
+	a eax
+	b ebx
+
+	unsigned a, b;
+	a = 21;
+	b = 98;
+	_asm
+	{
+		mov eax, a;
+		mov ebx, b;
+	for_loop:
+		cmp eax, ebx;
+		je the_end;
+		jbe not_greater;
+		sub eax, ebx;
+		jmp final;
+	not_greater:
+		sub ebx, eax;
+    final : 
+		jmp  for_loop;
+     the_end:
+		mov a, eax;
+	}
+	cout << a;
+	ex 4 . if ((a > 5) && (b < 0)) x = 10;*/
+	_asm {
+		cmp a, 5;
+		jle is_false;
+		cmp b, 2;
+		jge is_false;
+		mov x, 10;
+	is_false:
+
+	}
+				return 0;
+}
