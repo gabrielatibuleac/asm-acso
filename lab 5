@@ -1,0 +1,179 @@
+// lab5.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
+
+#include <iostream>
+using namespace std;
+// structre;
+struct  Complex {
+    int re, im;
+};
+void sum(Complex* c1, Complex* c2, Complex* c3){
+/*c3->re = c1->re + c2->re;
+c3->im = c1->im + c2->ím;
+//we put in a registrer
+c1->im;
+in asm;
+mov ebx, c1;
+           [ebx + 4] ;*/
+    _asm {
+    mov ebx, c1;
+    mov ecx, c2;
+    mov eax, c3;
+    //re;
+    mov edi, [ebx + 4];
+    add edi, [ecx + 4];
+    mov [eax + 4],edi;
+    //im
+    mov esi, [ebx];
+    add esi, [ecx];
+    mov[eax], esi;
+    }
+
+    }
+
+
+/*// ex 3 we want to move the code in a function
+   // want to make a function int sum(int t[],int n)
+int sum(int* t, int n)// its posible to be int sum(int *t,int n) for pointer
+{
+       int s = 0, i;
+    int* p = t;
+    _asm {
+        mov ebx, 0;//i;
+        mov eax, 0;//s
+    loop_:
+        cmp ebx, n;
+        jge sf;
+        mov ecx, p;
+        add eax, [ecx + ebx * 4];
+        inc ebx;
+        jmp loop_;
+    sf:
+    }
+}
+int main()
+{/*
+    int t[] = { 3,4,-2,9,12 };//for char avem t[eax]
+    int s = 0, i;
+    int* p = t;
+   //in  c for (i - 0; i < 5; i++)
+    //    s += t[i];
+      
+    _asm {
+        mov eax, 0;//i;
+        mov ebx, 0;
+    loop_:
+        cmp eax, 5;
+        jge sf;
+        add ebx, t[eax * 4];//pt int
+        inc eax;
+        jmp loop_;
+    sf:
+        mov s, ebx;
+    }
+    cout << s;   
+  //ex 2  daca avem int *p=t; daca inlocuim  t[eax * 4]; cu p[eax * 4]; se va afisa un nr oarecare, deci nu e corecct
+  cum il scriem
+  mov ecx,p;
+  add eax,[ecx+ebx*4];
+  
+    int t[] = { 3,4,-2,9,12 };//for char avem t[eax]
+    int s = 0, i;
+    int* p = t;
+    //in  c for (i - 0; i < 5; i++)
+     //    s += t[i];
+
+    _asm {
+        mov eax, 0;//i;
+        mov ebx, 0;
+    loop_:
+        cmp eax, 5;
+        jge sf;
+        mov ecx, p;
+        add ebx, [ecx + eax * 4];
+        inc eax;
+        jmp loop_;
+    sf:
+        mov s, ebx;
+    }
+    cout << s;
+    // ex 3 we want to move the code in a function
+    // want to make a function int sum(int t[],int n)
+    int t[] = { 3,4,-2,9,12 };
+    cout << sum(t, 5);
+        return 0;
+}*
+// ex 4 compute the sum of a matrix*/
+/*for (i = 0; i < 3; i++)
+    for (j = 0; j < 3; j++)
+        s += m[i][j]*/
+    int main()
+{/*
+        int m[3][3] = { {1,2,3},{4,5,6},{7,8,9} };
+        // matrix with static alocations
+        int i, j,s=0;
+        _asm {
+            mov esi, 0;//i
+            mov ecx, 0;//s
+         loopfor:
+            cmp esi, 3;
+            jge sf;
+            mov edi, 0;//j
+        loopfor2:
+            cmp edi, 3;
+            jge sf1;
+            //this is sum add -------
+            //we need i*3+j
+              mov eax,3;
+              mul esi;
+              add eax, edi;
+              add ecx,m[eax*4]          
+            inc edi;
+            jmp loopfor2;
+        sf1:
+            inc esi;
+            jmp loopfor;
+        sf:
+            mov s, ecx;
+        }
+        cout << s;
+        // matrice cu alocarea dinamica
+        int** m;
+        m = new int* [3];
+        for (i = 0; i < 3; i++)
+            m[i] = new int[3];
+        _asm {
+            mov eax, m;
+            mov eax, [eax + esi * 4];
+            add   ,[eax+edi*4]
+                   }*/
+        //structures;
+        /*
+        struct  Complex{
+        int re,im;
+        }
+        complex c;
+        c.re=5;
+        c.im=14;
+        struct Complex {
+    int re, im;
+};
+Complex c;
+c.re = 5;
+c.im = 14;
+_asm {
+    mov dword ptr c, 5;
+    mov dword ptr c + 4, 14;
+}
+            */
+        Complex c1, c2, c3;
+        c1.re = 1;
+        c2.re = 1;
+        c1.im = 2;
+        c2.im = 2;
+        c3.re = 0;
+        c3.im = 0;
+
+    return 0;
+
+}
