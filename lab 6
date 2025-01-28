@@ -1,0 +1,164 @@
+// lab6.cpp : This file contains the 'main' function. Program execution begins and ends there.
+//
+
+#include <iostream>
+using namespace std;
+struct Point {
+    float x, y;
+};
+const float zero = 0.0;
+float f(float t[], int n)
+{    float s;
+         _asm {
+        movss xmm0,zero;
+        mov ebx, 0;
+        mov edi, n;
+        cvtsi2ss xmm1, edi;
+    forloop:
+        cmp ebx, n;
+        jge finish;
+        mov ecx, t;
+        addss  xmm0, [ecx + ebx * 4];
+      
+        inc ebx;
+        jmp forloop;
+    finish: mov edi, n;
+        cvtsi2ss xmm1, edi;
+                movss s, xmm0;
+                    divss  xmm0, xmm1;
+               movss s, xmm1;
+                
+        fld s;
+    }
+
+
+}
+float dist(Point* p1, Point* p2)
+{ //float dis= sqrt((p2.x-p1.x)*(p2.x-p1.x)+(p2.y-p1.y)*(p2.y-p1.y))
+    float dis = 0.0;
+    _asm
+    { mov eax, p1;
+        movss xmm0, dword ptr [eax];
+        movss xmm1, dword ptr [eax+4];//y
+        mov eax, p2;
+        movss xmm2, dword ptr [eax];
+        movss xmm3, dword ptr [eax+4];//y
+
+        subss xmm2, xmm0;
+        mulss xmm2, xmm2;// p2-p1*2
+
+        subss xmm3, xmm1;
+        mulss xmm3, xmm3;
+
+        addss xmm2, xmm3;//x+y
+
+        sqrtss xmm4, xmm2;
+
+        movss dis, xmm4;
+    }
+    return dis;
+}
+float aria1(float a, float b, float c)
+{
+    float ar = 0.0;
+    float s =(a+b+c)/2.0;
+            _asm {
+            movss xmm0, s;
+            movss xmm1, a;
+            subss xmm0, xmm1;//s-a
+            movss xmm1, s;
+            movss xmm2, b;
+            subss xmm1, xmm2;//s-b
+            movss xmm1, s;
+            movss xmm2, c;
+            subss xmm1, xmm2;//s-c
+            movss xmm3, s;
+            mulss xmm3, xmm0;
+            mulss xmm3, xmm1;
+            mulss xmm3, xmm2;
+            sqrtss xmm4, xmm3;
+            movss ar, xmm4;
+        }
+            return ar;
+}
+ 
+//formula sqrt((p1.x-p2.x)*(p1.x-p2.x)+(p1.y-p2.y)*(p1.y-p2.y))
+// p1.x movss xmm0, dword ptr p1;
+int main(){
+/* ex 1
+    int t[] = {}
+    int s = 0,i;
+    for (i = 0; i < 5; i++)
+        s += t[i];
+    _asm {
+        mov eax, 0;
+        mov ebx, 0;
+    forloop:
+        cmp ebx, 5;
+        jge finish;
+        add eax, t[ebx * 4];
+        inc ebx;
+        jmp forloop;
+    finish:
+        mov s, eax;
+            }
+
+    float t[] = { 1.5,-2.25,3.5,2,10 };
+float s;
+const float zero = 0.0;
+int i;
+_asm {
+    movss xmm0, zero;
+    mov ebx, 0;
+forloop:
+    cmp ebx, 5;
+    jge finish;
+    addss xmm0, t[ebx * 4];
+    inc ebx;
+    jmp forloop;
+finish:
+    movss s, xmm0;
+}
+cout << s;
+ 
+ //
+ ex 2  a function what return the sum of a ;
+    float t[] = { 1.5,-2.25,3.5,2,10 };
+    cout << f(t, 5);*/
+      // float a = sqrt((p2.x - p1.x) * (p2.x - p1.x) + (p1.y - p2.y) * (p1.y - p2.y));
+ /*   float rez = sqrt((p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y));
+    _asm {
+        movss xmm0, dword ptr p1;
+        movss xmm1, dword ptr p1 + 4;
+        movss xmm2, dword ptr p2;
+        movss xmm3, dword ptr pt2 + 4;
+        subss  xmm2, xmm1;
+        movss xmm4, xmm2;
+        mulss xmm4, xmm4;
+        subss xmm3, xmm1;
+        movss xmm5, xmm3;
+        mulls xmm5, xmm3;
+        addss xmm4, xmmm5;
+        sqrtss xmm6, xmm4;
+        movss rez, xmm6;
+    }
+    cout << rez;*/
+    //cu mai putini registrii
+  /*  movss xmm0, dword ptr p1;
+    subss xmm0, dword ptr p2;
+    mulss xmm0, xmm0;
+    xmm1 < -(p1.y - p2.y) ^ 2
+        addss xmm1, xmm0;
+    sqrtss xmm0,xmm1;
+    //preg pt ses 
+    float dist(Point *p1,Point *p2)//distanta de la un punct la altu 
+    float area (Point *p1,Point *p2,Point *p3)//aria unui triunghi , dar daca nu e triunghi cum verificam 
+    daca e , vvf daca sunt coliniare
+   */ 
+   // Point p1 = { 2.0,1.5 }, p2 = { 5.0,5.5 };
+  //  float a = 5.0, b = 6.0, c = 7.0;
+    Point p1 = { 2.0,1.5 }, p2 = { 5.0,5.5 }, p3 = {1.0,2.0};
+    cout << aria(a, b, c);
+
+    return 0;
+}
